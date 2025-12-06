@@ -1,0 +1,21 @@
+{
+    "name": "App Facturas AI",
+    "short_name": "Facturas",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#F8F9FC",
+    "theme_color": "#4E73DF",
+    "description": "Gestiona tus facturas con IA",
+    "icons": [
+        {
+            "src": "/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ]
+}
