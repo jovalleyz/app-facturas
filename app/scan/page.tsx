@@ -7,6 +7,7 @@ import { ImageCapture } from "@/components/scan/ImageCapture";
 import { InvoiceForm } from "@/components/scan/InvoiceForm";
 import { processInvoiceImage } from "@/lib/gemini";
 import { saveInvoice, uploadInvoiceImage } from "@/lib/invoices";
+import { BottomNav } from "@/components/layout/BottomNav";
 import { Header } from "@/components/layout/Header";
 import { Invoice } from "@/types";
 
@@ -40,7 +41,20 @@ export default function ScanPage() {
 
         try {
             const base64 = await fileToBase64(file);
-            const data = await processInvoiceImage(base64);
+
+            // Use Server API to avoid client-side key issues
+            const response = await fetch("/api/analyze", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ image: base64 }),
+            });
+
+            if (!response.ok) {
+                const errData = await response.json();
+                throw new Error(errData.error || "Error en el servidor");
+            }
+
+            const data = await response.json();
             setExtractedData(data);
             setStep('validate');
         } catch (error) {
@@ -101,6 +115,7 @@ export default function ScanPage() {
                     />
                 )}
             </main>
+            <BottomNav />
         </div>
     );
 }
